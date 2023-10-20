@@ -24,7 +24,7 @@ class AirportResource extends JsonResource
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'iata' => $this->iata_code,
-            'details' => new AirportDetailsResource($this->airportDetails->first())
+            'details' => AirportDetailsResource::collection($this->airportDetails)
         ];
     }
 }

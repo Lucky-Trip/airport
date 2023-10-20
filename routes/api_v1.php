@@ -9,5 +9,6 @@ Route::group([
     'namespace' => 'Airports\Controllers',
 ], static function () {
     Route::get('/', 'AirportsController@index')->name('airports.index');
+    Route::get('/{airport}', 'AirportsController@show')->name('airports.show');
     Route::post('/', 'AirportsController@store')->name('airport.store');
 });
