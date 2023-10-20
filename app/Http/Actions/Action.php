@@ -193,4 +193,28 @@ abstract class Action
             $statusCode->value,
         );
     }
+
+    /**
+     * @param array<string, mixed>  $data
+     * @param ?string               $message
+     * @param ?array<string, mixed> $meta
+     * @param StatusCode            $statusCode
+     *
+     * @return JsonResponse
+     */
+    protected function dataResponse(
+        array $data,
+        ?string $message = null,
+        ?array $meta = [],
+        StatusCode $statusCode = StatusCode::OK
+    ): JsonResponse {
+        return new JsonResponse(
+            array_filter([
+                'message' => $message,
+                'data'    => $data,
+                'meta'    => array_filter((array)$meta),
+            ]),
+            $statusCode->value
+        );
+    }
 }
