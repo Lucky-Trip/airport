@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Modules\V1\Airports\Models\Airport;
+use Modules\V1\Languages\Enums\LanguageEnum;
+use Modules\V1\Airports\Models\AirportDetail;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Airport::factory(1000)->create()
+            ->each(function ($airport) {
+                AirportDetail::create([
+                    'id' => Str::uuid()->toString(),
+                    'airport_id' => $airport->id,
+                    'language' => fake()->randomElement(LanguageEnum::list()),
+                    'name' => fake()->word,
+                    'description' => fake()->paragraph,
+                    'terms_and_conditions' => fake()->paragraph,
+                ]);
+            });
     }
 }

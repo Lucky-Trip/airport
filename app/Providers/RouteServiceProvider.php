@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+    protected string $apiV1Namespace = 'Modules\\V1';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -29,6 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
+            $this->mapV1ApiRoutes();
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
@@ -36,5 +38,16 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+    }
+
+    /**
+     * @return void
+     */
+    protected function mapV1ApiRoutes(): void
+    {
+        Route::middleware('api')
+             ->namespace($this->apiV1Namespace)
+             ->prefix('api/v1')
+             ->group(base_path('routes/api_v1.php'));
     }
 }
