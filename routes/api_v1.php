@@ -8,5 +8,6 @@ Route::group([
     'middleware' => LanguageMiddleware::class,
     'namespace' => 'Airports\Controllers',
 ], static function () {
+    Route::get('/', 'AirportsController@index')->name('airports.index');
     Route::post('/', 'AirportsController@store')->name('airport.store');
 });

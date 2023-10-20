@@ -21,6 +21,7 @@ class AirportDetailsResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'language' => $this->language,
             'description' => $this->description,
             'terms_and_conditions' => $this->terms_and_conditions,

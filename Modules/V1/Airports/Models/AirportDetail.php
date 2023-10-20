@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property string $id
+ * @property string $name
  * @property string $airport_id
  * @property LanguageEnum|string $language
  * @property string $description
@@ -29,4 +30,15 @@ class AirportDetail extends Model
         'description',
         'terms_and_conditions',
     ];
+
+    /**
+     * @param $query
+     * @param $searchTerm
+     *
+     * @return mixed
+     */
+    public function scopeFullTextSearch($query, $searchTerm)
+    {
+        return $query->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$searchTerm]);
+    }
 }
