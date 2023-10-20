@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
+use Modules\V1\Airports\Models\Airport;
+use Modules\V1\Airports\Observers\AirportObserver;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -25,7 +27,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Airport::observe(AirportObserver::class);
     }
 
     /**

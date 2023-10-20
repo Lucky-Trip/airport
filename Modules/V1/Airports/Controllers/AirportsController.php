@@ -4,6 +4,7 @@ namespace Modules\V1\Airports\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Modules\V1\Airports\Controllers\Actions\GetAirport;
 use Modules\V1\Airports\Controllers\Actions\GetAirportList;
 use Modules\V1\Airports\Controllers\Actions\CreateAnAirport;
 
@@ -18,6 +19,17 @@ class AirportsController extends Controller
     {
         return $this->handleAction($action);
     }
+
+    /**
+     * @param GetAirport $action
+     *
+     * @return JsonResponse
+     */
+    public function show(GetAirport $action): JsonResponse
+    {
+        return $this->handleAction($action);
+    }
+
     /**
      * @param CreateAnAirport $action
      *
