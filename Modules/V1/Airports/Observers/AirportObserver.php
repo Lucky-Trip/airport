@@ -31,4 +31,16 @@ class AirportObserver
     {
         Cache::tags(AirportCacheKeys::AIRPORT_TAG)->flush();
     }
+
+    /**
+     * Handle the Airport "deleted" event.
+     *
+     * @param Airport $airport
+     *
+     * @return void
+     */
+    public function deleted(Airport $airport): void
+    {
+        Cache::tags(AirportCacheKeys::AIRPORT_TAG)->flush();
+    }
 }
