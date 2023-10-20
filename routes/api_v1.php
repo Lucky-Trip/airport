@@ -11,4 +11,5 @@ Route::group([
     Route::get('/', 'AirportsController@index')->name('airports.index');
     Route::get('/{airport}', 'AirportsController@show')->name('airports.show');
     Route::post('/', 'AirportsController@store')->name('airport.store');
+    Route::patch('/{airport}', 'AirportsController@update')->name('airports.show');
 });

@@ -19,4 +19,16 @@ class AirportObserver
     {
         Cache::tags(AirportCacheKeys::AIRPORT_TAG)->flush();
     }
+
+    /**
+     * Handle the Airport "updated" event.
+     *
+     * @param Airport $airport
+     *
+     * @return void
+     */
+    public function updated(Airport $airport): void
+    {
+        Cache::tags(AirportCacheKeys::AIRPORT_TAG)->flush();
+    }
 }
