@@ -3,6 +3,7 @@
 namespace Modules\V1\Airports\Controllers\Actions;
 
 use Exception;
+use Illuminate\Support\Str;
 use App\Http\Actions\Action;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,13 @@ class CreateAnAirport extends Action
         $inputs = $this->validator->validated();
         $language = app()->getLocale();
 
-
         DB::beginTransaction();
-
         try {
             /** @var ?Airport $airport */
             $airport = $this->getAirportIfAlreadyRegistered($inputs['airport_id']);
             if ($airport == null) {
                 $airport = Airport::create([
+                    'id' => Str::uuid()->toString(),
                     'airport_id' => $inputs['airport_id'],
                     'latitude' => $inputs['latitude'],
                     'longitude' => $inputs['longitude'],
@@ -45,6 +45,7 @@ class CreateAnAirport extends Action
             }
             DB::commit();
         } catch (Exception $ex) {
+            dd($ex->getMessage());
             DB::rollBack();
 
             Log::error(sprintf('Cannot create Airport due to: %s', $ex->getMessage()));

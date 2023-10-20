@@ -18,7 +18,7 @@ it('client can create airport', function () {
 
 it('client cannot create airport without name', function () {
     $response = $this->post(route('airport.store'), [
-        'airport_id' => 100,
+        'airport_id' => 101,
         'latitude' => 80,
         'longitude' => 10,
         'iata_code' => fake()->shuffleString('abc'),

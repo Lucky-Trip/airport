@@ -25,6 +25,7 @@ class Airport extends Model
      * @var array<string>
      */
     protected $fillable = [
+        'id',
         'airport_id',
         'latitude',
         'longitude',
