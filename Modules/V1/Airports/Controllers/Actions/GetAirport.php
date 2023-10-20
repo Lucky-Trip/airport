@@ -25,6 +25,10 @@ class GetAirport extends Action
             }
         );
 
+        if ($airport == null) {
+            return $this->dataResponse([], __('airports.not_found'));
+        }
+
         return $this->resourceResponse(new AirportResource($airport));
     }
 }
