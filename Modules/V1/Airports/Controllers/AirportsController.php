@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Modules\V1\Airports\Controllers\Actions\GetAirport;
 use Modules\V1\Airports\Controllers\Actions\GetAirportList;
 use Modules\V1\Airports\Controllers\Actions\CreateAnAirport;
+use Modules\V1\Airports\Controllers\Actions\UpdateAnAirport;
 
 class AirportsController extends Controller
 {
@@ -36,6 +37,16 @@ class AirportsController extends Controller
      * @return JsonResponse
      */
     public function store(CreateAnAirport $action): JsonResponse
+    {
+        return $this->handleAction($action);
+    }
+
+    /**
+     * @param UpdateAnAirport $action
+     *
+     * @return JsonResponse
+     */
+    public function update(UpdateAnAirport $action): JsonResponse
     {
         return $this->handleAction($action);
     }
