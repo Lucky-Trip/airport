@@ -16,16 +16,21 @@ class GetAirport extends Action
     public function execute(): JsonResponse
     {
         $airportId = $this->request->route('airport');
+        $language = app()->getLocale();
 
         $airport = Cache::tags(AirportCacheKeys::AIRPORT_TAG)->remember(
-            sprintf(AirportCacheKeys::SINGLE_AIRPORT_CACHE_KEY . "_id_%s", $airportId),
+            sprintf(AirportCacheKeys::SINGLE_AIRPORT_CACHE_KEY . "_id_%s_lang_%s", $airportId, $language),
             AirportCacheKeys::AIRPORT_CACHE_TTL,
-            function () use ($airportId) {
-                return Airport::query()->with('airportDetails')->where('id', $airportId)->first();
+            function () use ($airportId, $language) {
+                return Airport::query()->with([
+                    'airportDetails' => function ($details) use ($language) {
+                        return $details->where('language', $language)->first();
+                    }
+                ])->where('id', $airportId)->first();
             }
         );
 
-        if ($airport == null) {
+        if ($airport == null || $airport->airportDetails->count() == 0) {
             return $this->dataResponse([], __('airports.not_found'));
         }
 
