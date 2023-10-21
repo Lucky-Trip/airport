@@ -17,22 +17,23 @@ class GetAirportList extends Action
     public function execute(): JsonResponse
     {
         $airportName = $this->request->query('airport_name');
+        $language = app()->getLocale();
 
         $latitude = $this->request->query('latitude');
         $longitude = $this->request->query('longitude');
         $sort = $this->request->query('sort', 'asc');
 
-        $cacheKey = $this->generateCacheKey($airportName, $latitude, $longitude, $sort);
+        $cacheKey = $this->generateCacheKey($airportName, $latitude, $longitude, $sort, $language);
 
         $airports = Cache::tags([AirportCacheKeys::AIRPORT_TAG])->remember(
             $cacheKey,
             AirportCacheKeys::AIRPORT_CACHE_TTL,
-            function () use ($airportName, $latitude, $longitude, $sort) {
+            function () use ($airportName, $latitude, $longitude, $sort, $language) {
                 $baseQuery = Airport::query();
 
                 if ($airportName !== null) {
-                    $baseQuery->whereHas('airportDetails', function ($query) use ($airportName) {
-                        $query->where('name', 'like',"%$airportName%");
+                    $baseQuery->whereHas('airportDetails', function ($query) use ($airportName, $language) {
+                        $query->where('name', 'like', "%$airportName%")->where('language', $language);
                     });
                 }
 
@@ -82,6 +83,7 @@ class GetAirportList extends Action
      * @param string|null $latitude
      * @param string|null $longitude
      * @param string|null $sort
+     * @param string      $language
      *
      * @return string
      */
@@ -89,7 +91,8 @@ class GetAirportList extends Action
         ?string $airportName,
         ?string $latitude,
         ?string $longitude,
-        ?string $sort
+        ?string $sort,
+        string $language
     ): string {
         $keys = [
             AirportCacheKeys::SINGLE_AIRPORT_CACHE_KEY
@@ -109,6 +112,10 @@ class GetAirportList extends Action
 
         if ($sort !== null) {
             $keys[] = $sort;
+        }
+
+        if ($language !== null) {
+            $keys[] = $language;
         }
 
         return implode('_', $keys);
