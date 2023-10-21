@@ -30,15 +30,4 @@ class AirportDetail extends Model
         'description',
         'terms_and_conditions',
     ];
-
-    /**
-     * @param $query
-     * @param $searchTerm
-     *
-     * @return mixed
-     */
-    public function scopeFullTextSearch($query, $searchTerm)
-    {
-        return $query->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$searchTerm]);
-    }
 }
