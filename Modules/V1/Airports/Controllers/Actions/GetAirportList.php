@@ -32,7 +32,7 @@ class GetAirportList extends Action
 
                 if ($airportName !== null) {
                     $baseQuery->whereHas('airportDetails', function ($query) use ($airportName) {
-                        $query->whereFullText(['name'], $airportName);
+                        $query->where('name', 'like',"%$airportName%");
                     });
                 }
 
