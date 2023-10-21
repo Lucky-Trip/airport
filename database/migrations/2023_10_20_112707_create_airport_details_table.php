@@ -26,10 +26,6 @@ return new class extends Migration
             $table->longText('description');
             $table->longText('terms_and_conditions')->nullable();
 
-            if (!$this->isSqlite()) {
-                $table->fullText(['name']);
-            }
-
             $table->timestamps();
         });
     }
@@ -40,13 +36,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('airport_details');
-    }
-
-    private function isSqlite(): bool
-    {
-        return 'sqlite' === Schema::connection($this->getConnection())
-                                  ->getConnection()
-                                  ->getPdo()
-                                  ->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
 };
